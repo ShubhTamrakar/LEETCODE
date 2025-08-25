@@ -1,0 +1,49 @@
+#include <string.h>
+#include <stdlib.h>
+int numUniqueEmails(char** emails, int emailsSize) {
+    for (int i = 0; i < emailsSize; i++) {
+        int k = 0;
+        while (emails[i][k] != '\0') {
+            if (emails[i][k] == '+') {
+                int j = k;
+                while (emails[i][j] != '@') {
+                    emails[i][j] = ' ';
+                    j++;
+                }
+                break;
+            }
+            if (emails[i][k] == '.') {
+                int o = k;
+                while (emails[i][o] != '\0') {
+                    emails[i][o] = emails[i][o + 1];
+                    o++;
+                }
+                k--;
+            }
+            if (emails[i][k] == '@') {
+                break;
+            }
+            k++;
+        }
+        int len = strlen(emails[i]);
+        int write = 0;
+        for (int read = 0; read < len; read++) {
+            if (emails[i][read] != ' ') {
+                emails[i][write++] = emails[i][read];
+            }
+        }
+        emails[i][write] = '\0';
+    }
+    int count = 0;
+    for (int i = 0; i < emailsSize; i++) {
+        int unique = 1;
+        for (int j = 0; j < i; j++) {
+            if (strcmp(emails[i], emails[j]) == 0) {
+                unique = 0;
+                break;
+            }
+        }
+        if (unique) count++;
+    }
+    return count;
+}
