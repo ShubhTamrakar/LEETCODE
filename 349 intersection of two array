@@ -1,0 +1,31 @@
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+        int arr[1001] = {0};
+    int k = 0;
+
+    for(int i = 0; i < nums1Size; i++) {
+        for(int j = 0; j < nums2Size; j++) {
+            if(nums1[i] == nums2[j]) {
+                int found = 0;
+                for(int e = 0; e < k; e++) {
+                    if(arr[e] == nums2[j]) {
+                        found = 1;
+                        break;
+                    }
+                }
+                
+                if (found == 0) {
+                    arr[k] = nums2[j];
+                    k++;
+                }
+                break;
+            }
+        }
+    }
+    int* result = (int*)malloc(sizeof(int) * k);
+    for (int i = 0; i < k; i++) {
+        result[i] = arr[i];
+    }
+
+    *returnSize = k;
+    return result;
+}
