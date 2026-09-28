@@ -1,15 +1,15 @@
 class Solution {
 public:
-    void BFS(vector<vector<int>>& isConnected, int src, vector<bool>& visited) {
-        queue<int> que;
+    void dfs(vector<vector<int>>& isConnected, int src, vector<bool>& visited) {
+        stack<int> st;
         int n = isConnected.size();
-        que.push(src);
-        while (!que.empty()) {
-            int front = que.front();
-            que.pop();
+        st.push(src);
+        while (!st.empty()) {
+            int top = st.top();
+            st.pop();
             for (int i = 0; i < n; i++) {
-                if (isConnected[front][i] == 1 and visited[i] == false) {
-                    que.push(i);
+                if (isConnected[top][i] == 1 and visited[i] == false) {
+                    st.push(i);
                     visited[i] = true;
                 }
             }
@@ -24,7 +24,7 @@ public:
         {
             if (visited[i]==false)
             {
-                BFS(isConnected, i, visited);
+                dfs(isConnected, i, visited);
                 count++;
             }
 
