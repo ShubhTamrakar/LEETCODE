@@ -1,36 +1,49 @@
 class Solution {
 public:
 
-    void DFS(vector<vector<char>>& grid, int r, int c) {
+    void BFS(vector<vector<char>>& grid, int r, int c) {
         int m = grid.size();
         int n = grid[0].size();
 
-        // Mark current land as visited
-        grid[r][c] = '0';
+        queue<pair<int, int>> q;
 
-        // Down
-        if (r + 1 < m && grid[r + 1][c] == '1')
-            DFS(grid, r + 1, c);
+        q.push({r, c});
+        grid[r][c] = '0';   // mark visited
 
-        // Up
-        if (r - 1 >= 0 && grid[r - 1][c] == '1')
-            DFS(grid, r - 1, c);
+        while (!q.empty()) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
 
-        // Right
-        if (c + 1 < n && grid[r][c + 1] == '1')
-            DFS(grid, r, c + 1);
+            
+            if (x + 1 < m && grid[x + 1][y] == '1') {
+                grid[x + 1][y] = '0';
+                q.push({x + 1, y});
+            }
 
-        // Left
-        if (c - 1 >= 0 && grid[r][c - 1] == '1')
-            DFS(grid, r, c - 1);
+            
+            if (x - 1 >= 0 && grid[x - 1][y] == '1') {
+                grid[x - 1][y] = '0';
+                q.push({x - 1, y});
+            }
+
+            
+            if (y + 1 < n && grid[x][y + 1] == '1') {
+                grid[x][y + 1] = '0';
+                q.push({x, y + 1});
+            }
+
+            
+            if (y - 1 >= 0 && grid[x][y - 1] == '1') {
+                grid[x][y - 1] = '0';
+                q.push({x, y - 1});
+            }
+        }
     }
 
     int numIslands(vector<vector<char>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
-
-        if (m == 0)
-            return 0;
 
         int count = 0;
 
@@ -38,7 +51,7 @@ public:
             for (int c = 0; c < n; c++) {
 
                 if (grid[r][c] == '1') {
-                    DFS(grid, r, c);
+                    BFS(grid, r, c);
                     count++;
                 }
             }
