@@ -1,24 +1,27 @@
+
 #include <algorithm>
+#include <string>
+using namespace std;
+
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int l = s.length();
-        string str = "";
-        int maxLen=0;
-        for(int i = 0; i < l; i++)
-        {
-            char c = s.at(i);
-            if(str.find(c)==-1)
-            {
-                str = str + c;
+        int l = 0, r = 0, maxLen = 0;
+        int hash[256];
+        fill(hash, hash + 256, -1);
+
+        while (r < s.size()) {
+            unsigned char c = s[r];
+
+            if (hash[c] >= l) {
+                l = hash[c] + 1;
             }
-            else{
-                maxLen = max(maxLen, (int)str.length());
-                str = str.substr((str.find(c)+1),(int)str.length());
-                str = str+c;
-            }
-            maxLen = max(maxLen, (int)str.length());
+
+            maxLen = max(maxLen, r - l + 1);
+            hash[c] = r;
+            r++;
         }
+
         return maxLen;
     }
 };
